@@ -14,6 +14,11 @@ class AccountsController {
         render view: "addNewAccount"
     }
 
+    def viewAllAccounts(){
+        List<Account> allAccounts = accountsService.retrieveAllAccounts()
+        render view: "viewAllAccounts", model: [allAccounts: allAccounts]
+    }
+
     def processNewAccount( ){
         AddNewAccountCommand cmd = new AddNewAccountCommand().tap {
             it.emailAddress = params.emailAddress

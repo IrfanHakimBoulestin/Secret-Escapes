@@ -14,4 +14,8 @@ class AccountsService {
             save()
         }
     }
+
+    List<Account> retrieveAllAccounts(){
+        return Account.all
+    }
 }

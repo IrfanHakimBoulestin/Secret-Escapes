@@ -14,7 +14,7 @@
     </svg>
     <div class="card-body text-center">
         <h5 class="card-title text-center">Account Actions</h5>
-        <a href="#" class="btn btn-primary">View All Accounts</a>
+        <a href="/accounts/viewAllAccounts" class="btn btn-primary">View All Accounts</a>
         <a href="/accounts/addNewAccount" class="btn btn-success">Add New Account</a>
     </div>
 </div>

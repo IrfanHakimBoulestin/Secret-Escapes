@@ -29,4 +29,19 @@ class AccountsServiceSpec extends HibernateSpec  implements ServiceUnitTest<Acco
         Account.first().balance == 200D
         Account.first().emailAddress == 'email@email.com'
     }
+
+    void "retrieveAllAccounts"(){
+        when:
+        Account accountOne = new Account().tap {
+            it.emailAddress = 'email@email.com'
+            it.accountName = 'accountName'
+            it.balance = 200D
+            save()
+        }
+        List<Account> expectedAccounts = [accountOne]
+        List<Account> actualAccountsRetrieved = service.retrieveAllAccounts()
+
+        then:
+        expectedAccounts == actualAccountsRetrieved
+    }
 }

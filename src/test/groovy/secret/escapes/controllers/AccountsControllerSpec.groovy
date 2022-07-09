@@ -3,6 +3,7 @@ package secret.escapes.controllers
 import commands.AddNewAccountCommand
 import grails.testing.web.controllers.ControllerUnitTest
 import groovy.mock.interceptor.MockFor
+import secret.escapes.Account
 import secret.escapes.AccountsController
 import secret.escapes.AccountsService
 import spock.lang.Specification
@@ -60,5 +61,19 @@ class AccountsControllerSpec extends Specification implements ControllerUnitTest
         flash.success == 'New Account Added Successfully!'
         view == '/index'
         accountServiceMock.verify(controller.accountsService)
+    }
+
+    void "viewAllAccounts"(){
+        when:
+        def accountServiceMock = new MockFor(AccountsService)
+        accountServiceMock.demand.retrieveAllAccounts(1){ return [new Account(), new Account()] }
+        controller.accountsService = accountServiceMock.proxyInstance()
+        controller.viewAllAccounts()
+
+        then:
+        view == '/accounts/viewAllAccounts'
+        model.allAccounts.size() == 2
+        accountServiceMock.verify(controller.accountsService)
+
     }
 }
