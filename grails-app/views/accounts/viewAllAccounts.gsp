@@ -24,6 +24,9 @@
                 <td>${account.getAccountName()}</td>
                 <td>${account.getBalance()}</td>
                 <td>${account.getEmailAddress()}</td>
+                <td>
+                    <a href="/transactions" class="btn btn-primary">View Transactions</a>
+                </td>
             </tr>
         </g:each>
     </tbody>

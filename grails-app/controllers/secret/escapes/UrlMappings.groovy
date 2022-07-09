@@ -12,6 +12,8 @@ class UrlMappings {
         "/"(view:"/index")
         "/accounts"(controller: 'AccountsController', action: 'index')
         "/accounts/$action"(controller: 'AccountsController')
+        "/transactions"(controller: 'TransactionsController', action: 'index')
+        "/transactions/$action"(controller: 'TransactionsController')
         "500"(view:'/error')
         "404"(view:'/notFound')
     }
