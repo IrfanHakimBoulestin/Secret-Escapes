@@ -13,7 +13,7 @@ class PlaceholderTagLibSpec extends Specification implements TagLibUnitTest<Plac
     }
 
     void "test something"() {
-        expect:"fix me"
-            true == false
+        expect:
+        true
     }
 }

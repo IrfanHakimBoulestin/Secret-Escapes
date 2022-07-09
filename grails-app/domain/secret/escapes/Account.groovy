@@ -7,7 +7,7 @@ class Account {
     String emailAddress
 
     static constraints = {
-        accountName nullable: false
+        accountName nullable: false, maxSize: 30
         balance nullable: false
         emailAddress nullable: false
     }

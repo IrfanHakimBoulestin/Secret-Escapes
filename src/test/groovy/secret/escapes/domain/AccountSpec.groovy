@@ -32,6 +32,14 @@ class AccountSpec extends Specification implements DomainUnitTest<Account> {
         !account.validate()
     }
 
+    void "invalid_accountNameMaxExceeded"() {
+        when:
+        account.accountName = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+
+        then:
+        !account.validate()
+    }
+
     void "invalid_noBalance"() {
         when:
         account.balance = null

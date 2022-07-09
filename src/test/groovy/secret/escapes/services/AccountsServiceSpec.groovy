@@ -1,10 +1,12 @@
 package secret.escapes.services
 
+import commands.AddNewAccountCommand
+import grails.test.hibernate.HibernateSpec
 import grails.testing.services.ServiceUnitTest
+import secret.escapes.Account
 import secret.escapes.AccountsService
-import spock.lang.Specification
 
-class AccountsServiceSpec extends Specification implements ServiceUnitTest<AccountsService>{
+class AccountsServiceSpec extends HibernateSpec  implements ServiceUnitTest<AccountsService>{
 
     def setup() {
     }
@@ -12,8 +14,19 @@ class AccountsServiceSpec extends Specification implements ServiceUnitTest<Accou
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
+    void "addNewAccount"() {
+        when:
+        AddNewAccountCommand cmd = new AddNewAccountCommand().tap {
+            it.emailAddress = 'email@email.com'
+            it.accountName = 'accountName'
+        }
+        assert Account.all.isEmpty()
+        service.addNewAccount(cmd)
+
+        then:
+        Account.all.size() == 1
+        Account.first().accountName == 'accountName'
+        Account.first().balance == 200D
+        Account.first().emailAddress == 'email@email.com'
     }
 }
