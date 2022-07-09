@@ -11,4 +11,8 @@ class Account {
         balance nullable: false
         emailAddress nullable: false
     }
+
+    static hasMany = [
+            transactions: Transaction
+    ]
 }

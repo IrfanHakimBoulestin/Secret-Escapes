@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Add New Account</title>
+    <title>View All Accounts</title>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
                 <td>${account.getBalance()}</td>
                 <td>${account.getEmailAddress()}</td>
                 <td>
-                    <a href="/transactions" class="btn btn-primary">View Transactions</a>
+                    <a href="/transactions/viewTransactions?id=${account.getId()}" class="btn btn-primary">View Transactions</a>
                 </td>
             </tr>
         </g:each>
