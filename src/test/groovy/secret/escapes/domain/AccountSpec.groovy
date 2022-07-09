@@ -6,14 +6,45 @@ import spock.lang.Specification
 
 class AccountSpec extends Specification implements DomainUnitTest<Account> {
 
+    Account account
+
     def setup() {
+        account = new Account().tap { account ->
+            account.accountName = 'Account One'
+            account.balance = 200D
+            account.emailAddress = 'email@gmail.com'
+        }
     }
 
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
+    void "Valid"() {
+        expect:
+        account.validate()
+    }
+
+    void "invalid_noAccountName"() {
+        when:
+        account.accountName = null
+
+        then:
+        !account.validate()
+    }
+
+    void "invalid_noBalance"() {
+        when:
+        account.balance = null
+
+        then:
+        !account.validate()
+    }
+
+    void "invalid_noEmail"() {
+        when:
+        account.emailAddress = null
+
+        then:
+        !account.validate()
     }
 }
