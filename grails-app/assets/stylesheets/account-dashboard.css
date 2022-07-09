@@ -1,0 +1,14 @@
+.centered{
+    position: fixed;
+    top: 40%;
+    left: 40%;
+}
+
+.card-space{
+    width: 25rem;
+    height: 12rem
+}
+
+.accounts-icon{
+    margin-left: 9rem;
+}
