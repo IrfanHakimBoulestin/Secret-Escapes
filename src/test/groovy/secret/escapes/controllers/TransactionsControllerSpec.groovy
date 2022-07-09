@@ -2,6 +2,8 @@ package secret.escapes.controllers
 
 import grails.testing.web.controllers.ControllerUnitTest
 import groovy.mock.interceptor.MockFor
+import secret.escapes.Account
+import secret.escapes.AccountsService
 import secret.escapes.Transaction
 import secret.escapes.TransactionService
 import secret.escapes.TransactionsController
@@ -29,6 +31,10 @@ class TransactionsControllerSpec extends Specification implements ControllerUnit
         def transactionServiceMock = new MockFor(TransactionService)
         transactionServiceMock.demand.retrieveTransactionsForAccount(1){ return [new Transaction(), new Transaction()] }
         controller.transactionService = transactionServiceMock.proxyInstance()
+
+        def accountsServiceMock = new MockFor(AccountsService)
+        accountsServiceMock.demand.retrieveAccount(1){ Integer accountId -> return new Account() }
+        controller.accountsService = accountsServiceMock.proxyInstance()
         
         when:
         controller.viewTransactions()
@@ -36,6 +42,8 @@ class TransactionsControllerSpec extends Specification implements ControllerUnit
         then:
         view == '/transactions/viewAllTransactions'
         model.transactions.size() == 2
+        model.account
         transactionServiceMock.verify(controller.transactionService)
+        accountsServiceMock.verify(controller.accountsService)
     }
 }

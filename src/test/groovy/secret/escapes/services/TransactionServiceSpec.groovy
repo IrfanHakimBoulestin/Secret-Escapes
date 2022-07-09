@@ -33,19 +33,30 @@ class TransactionServiceSpec extends HibernateSpec implements ServiceUnitTest<Tr
             it.transactionAmount = 20D
             save()
         }
+        new Transaction().tap {
+            it.account = account2
+            it.receiverAccount = account1
+            it.transactionAmount = 20D
+            save()
+        }
     }
 
     def cleanup() {
     }
 
-    void "retrieveTransactionsForAccount, returns transactions for account"() {
+    void "retrieveTransactionsForAccount, returns transactions for account 1"() {
         expect:
-        service.retrieveTransactionsForAccount(1).size() == 2
+        service.retrieveTransactionsForAccount(Account.findByAccountName('AN1').id as Integer).size() == 3
+    }
+
+    void "retrieveTransactionsForAccount, returns transactions for account 2"() {
+        expect:
+        service.retrieveTransactionsForAccount(Account.findByAccountName('AN2').id as Integer).size() == 3
     }
 
     void "retrieveTransactionsForAccount, no transactions for account, nothing returned"() {
         expect:
-        service.retrieveTransactionsForAccount(2).isEmpty()
+        service.retrieveTransactionsForAccount(553).isEmpty()
     }
 
     void "addTransaction"(){
@@ -55,7 +66,7 @@ class TransactionServiceSpec extends HibernateSpec implements ServiceUnitTest<Tr
         service.addTransaction(accountFromId, accountToId, 20D)
 
         then:
-        Transaction.all.size() == 3
+        Transaction.all.size() == 4
         Transaction.last().account == Account.findByAccountName('AN1')
         Transaction.last().receiverAccount == Account.findByAccountName('AN2')
         Transaction.last().transactionAmount == 20D

@@ -6,7 +6,8 @@ import grails.gorm.transactions.Transactional
 class TransactionService {
 
     List<Transaction> retrieveTransactionsForAccount(Integer id) {
-        return Transaction.findAllByAccount(Account.get(id))
+        Account account = Account.get(id)
+        return Transaction.findAllByAccountOrReceiverAccount(account, account)
     }
 
     void addTransaction(Integer accountFrom, Integer accountTo, Double transactionAmount) {

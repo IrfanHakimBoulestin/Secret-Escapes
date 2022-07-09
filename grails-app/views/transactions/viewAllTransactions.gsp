@@ -9,6 +9,8 @@
 
 <g:render template="/layouts/flash"/>
 
+<h1 class="alert-info text-center">Viewing Transactions For: ${account.getAccountName()}</h1>
+
 <table class="table">
     <thead>
         <tr>
