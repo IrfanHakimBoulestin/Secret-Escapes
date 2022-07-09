@@ -10,6 +10,7 @@
 *= require bootstrap
 *= require account-dashboard
 *= require accounts
+*= require transfers
 *= require grails
 *= require main
 *= require mobile

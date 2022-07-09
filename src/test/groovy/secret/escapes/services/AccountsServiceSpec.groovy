@@ -9,6 +9,18 @@ import secret.escapes.AccountsService
 class AccountsServiceSpec extends HibernateSpec  implements ServiceUnitTest<AccountsService>{
 
     def setup() {
+        new Account().tap {
+            it.accountName = 'AN1'
+            it.emailAddress = 'email@email.com'
+            it.balance = 200D
+            save()
+        }
+        new Account().tap {
+            it.accountName = 'AN2'
+            it.emailAddress = 'email@email.com'
+            it.balance = 200D
+            save()
+        }
     }
 
     def cleanup() {
@@ -20,28 +32,41 @@ class AccountsServiceSpec extends HibernateSpec  implements ServiceUnitTest<Acco
             it.emailAddress = 'email@email.com'
             it.accountName = 'accountName'
         }
-        assert Account.all.isEmpty()
+        assert Account.all.size() == 2
         service.addNewAccount(cmd)
 
         then:
-        Account.all.size() == 1
-        Account.first().accountName == 'accountName'
-        Account.first().balance == 200D
-        Account.first().emailAddress == 'email@email.com'
+        Account.all.size() == 3
+        Account.all.get(2).accountName == 'accountName'
+        Account.all.get(2).balance == 200D
+        Account.all.get(2).emailAddress == 'email@email.com'
     }
 
     void "retrieveAllAccounts"(){
         when:
-        Account accountOne = new Account().tap {
-            it.emailAddress = 'email@email.com'
-            it.accountName = 'accountName'
-            it.balance = 200D
-            save()
-        }
-        List<Account> expectedAccounts = [accountOne]
+        List<Account> expectedAccounts = [Account.findByAccountName('AN1'), Account.findByAccountName('AN2')]
         List<Account> actualAccountsRetrieved = service.retrieveAllAccounts()
 
         then:
         expectedAccounts == actualAccountsRetrieved
+    }
+
+    void "retrieveAllAccountsApartFromSelectedAccount"(){
+        when:
+        List<Account> expectedAccounts = [Account.findByAccountName('AN2')]
+        List<Account> actualAccountsRetrieved = service.retrieveAllAccountsApartFromSelectedAccount(Account.findByAccountName('AN1').id as Integer)
+
+        then:
+        expectedAccounts == actualAccountsRetrieved
+    }
+
+    void "retrieveAccount"(){
+        when:
+        Account accountRetrieved = service.retrieveAccount(Account.findByAccountName('AN1').id as Integer)
+        Account secondAccountRetrieved = service.retrieveAccount(Account.findByAccountName('AN2').id as Integer)
+
+        then:
+        accountRetrieved.getAccountName() == 'AN1'
+        secondAccountRetrieved.getAccountName() == 'AN2'
     }
 }

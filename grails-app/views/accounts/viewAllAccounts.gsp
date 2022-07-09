@@ -25,7 +25,8 @@
                 <td>${account.getBalance()}</td>
                 <td>${account.getEmailAddress()}</td>
                 <td>
-                    <a href="/transactions/viewTransactions?id=${account.getId()}" class="btn btn-primary">View Transactions</a>
+                    <a href="/transactions/viewTransactions?id=${account.getId()}" class="btn btn-primary mr-1">View Transactions</a>
+                    <a href="/payments/transferForm?id=${account.getId()}" class="btn btn-primary">Make a Transfer</a>
                 </td>
             </tr>
         </g:each>

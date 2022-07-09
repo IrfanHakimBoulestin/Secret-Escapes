@@ -18,4 +18,12 @@ class AccountsService {
     List<Account> retrieveAllAccounts(){
         return Account.all
     }
+
+    List<Account> retrieveAllAccountsApartFromSelectedAccount(Integer id){
+        return Account.all - Account.get(id)
+    }
+
+    Account retrieveAccount(Integer id){
+        return Account.get(id)
+    }
 }
