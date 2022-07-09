@@ -12,8 +12,19 @@ class AccountsControllerSpec extends Specification implements ControllerUnitTest
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
+    void "when index is called, index view is rendered"() {
+        when:
+        controller.index()
+
+        then:
+        view == '/index'
+    }
+
+    void "when addNewAccount is called, addNewAccount view is rendered"() {
+        when:
+        controller.addNewAccount()
+
+        then:
+        view == '/accounts/addNewAccount'
     }
 }

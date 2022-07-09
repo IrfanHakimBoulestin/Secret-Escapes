@@ -2,5 +2,11 @@ package secret.escapes
 
 class AccountsController {
 
-    def index() { }
+    def index() {
+        render view: "/index"
+    }
+
+    def addNewAccount(){
+        render view: "addNewAccount"
+    }
 }
