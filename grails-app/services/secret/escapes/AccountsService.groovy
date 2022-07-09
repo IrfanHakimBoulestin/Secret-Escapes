@@ -6,7 +6,7 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class AccountsService {
 
-    def addNewAccount(AddNewAccountCommand cmd) {
+    void addNewAccount(AddNewAccountCommand cmd) {
         new Account().tap { account ->
             account.accountName = cmd.accountName
             account.balance = 200D
@@ -25,5 +25,20 @@ class AccountsService {
 
     Account retrieveAccount(Integer id){
         return Account.get(id)
+    }
+
+    void processTransfer(Integer accountFrom, Integer accountTo, Double transactionAmount){
+        Account.get(accountFrom).tap {
+            it.balance = it.balance - transactionAmount
+            save()
+        }
+        Account.get(accountTo).tap {
+            it.balance = it.balance + transactionAmount
+            save()
+        }
+    }
+
+    boolean checkFundsAvailable(Integer accountFrom, Double transactionAmount){
+        return Account.get(accountFrom).balance - transactionAmount >= 0
     }
 }

@@ -69,4 +69,42 @@ class AccountsServiceSpec extends HibernateSpec  implements ServiceUnitTest<Acco
         accountRetrieved.getAccountName() == 'AN1'
         secondAccountRetrieved.getAccountName() == 'AN2'
     }
+
+    void "processTransfer"(){
+        when:
+        Account accountFrom = Account.findByAccountName('AN1')
+        Account accountTo = Account.findByAccountName('AN2')
+        service.processTransfer(accountFrom.id as Integer, accountTo.id as Integer, 25D)
+
+        then:
+        accountFrom.balance == 175D
+        accountTo.balance == 225D
+    }
+
+    void "checkFundsAvailable, balance less than transaction amount, return true"(){
+        when:
+        Account account = Account.findByAccountName('AN2')
+        boolean hasFunds = service.checkFundsAvailable(account.id as Integer, 150D)
+
+        then:
+        hasFunds
+    }
+
+    void "checkFundsAvailable, balance equal than transaction amount, return true"(){
+        when:
+        Account account = Account.findByAccountName('AN2')
+        boolean hasFunds = service.checkFundsAvailable(account.id as Integer, 200D)
+
+        then:
+        hasFunds
+    }
+
+    void "checkFundsAvailable, balance greater than transaction amount, return true"(){
+        when:
+        Account account = Account.findByAccountName('AN2')
+        boolean hasFunds = service.checkFundsAvailable(account.id as Integer, 201D)
+
+        then:
+        !hasFunds
+    }
 }

@@ -48,4 +48,16 @@ class TransactionServiceSpec extends HibernateSpec implements ServiceUnitTest<Tr
         service.retrieveTransactionsForAccount(2).isEmpty()
     }
 
+    void "addTransaction"(){
+        when:
+        Integer accountFromId = (Integer) Account.findByAccountName('AN1').id
+        Integer accountToId = (Integer) Account.findByAccountName('AN2').id
+        service.addTransaction(accountFromId, accountToId, 20D)
+
+        then:
+        Transaction.all.size() == 3
+        Transaction.last().account == Account.findByAccountName('AN1')
+        Transaction.last().receiverAccount == Account.findByAccountName('AN2')
+        Transaction.last().transactionAmount == 20D
+    }
 }
