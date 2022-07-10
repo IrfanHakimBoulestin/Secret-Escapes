@@ -4,6 +4,7 @@ import grails.testing.web.controllers.ControllerUnitTest
 import groovy.mock.interceptor.MockFor
 import secret.escapes.Account
 import secret.escapes.AccountsService
+import secret.escapes.EmailService
 import secret.escapes.PaymentsController
 import secret.escapes.TransactionService
 import spock.lang.Specification
@@ -87,6 +88,10 @@ class PaymentsControllerSpec extends Specification implements ControllerUnitTest
         transactionServiceMock.demand.addTransaction(1){ Integer accountFrom, Integer accountTo, Double transactionAmount ->  }
         controller.transactionService = transactionServiceMock.proxyInstance()
 
+        def emailServiceMock = new MockFor(EmailService)
+        emailServiceMock.demand.sendTransferCompleteEmail(1){ Integer accountFrom, Integer accountTo ->  }
+        controller.emailService = emailServiceMock.proxyInstance()
+
 
         when:
         controller.processTransfer()
@@ -96,5 +101,6 @@ class PaymentsControllerSpec extends Specification implements ControllerUnitTest
         flash.success == 'Transfer has been successfully completed!'
         accountServiceMock.verify(controller.accountsService)
         transactionServiceMock.verify(controller.transactionService)
+        emailServiceMock.verify(controller.emailService)
     }
 }

@@ -8,6 +8,8 @@ class PaymentsController {
 
     TransactionService transactionService
 
+    EmailService emailService
+
     def index() {
         redirect(uri: '/')
     }
@@ -39,6 +41,7 @@ class PaymentsController {
         } else {
             accountsService.processTransfer(cmd.accountFrom, cmd.accountTo, cmd.transactionAmount)
             transactionService.addTransaction(cmd.accountFrom, cmd.accountTo, cmd.transactionAmount)
+            emailService.sendTransferCompleteEmail(cmd.accountFrom, cmd.accountTo)
             flash.success = 'Transfer has been successfully completed!'
         }
         redirect(uri: "/accounts/viewAllAccounts")
