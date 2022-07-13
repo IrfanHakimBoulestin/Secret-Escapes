@@ -12,8 +12,7 @@ To view the H2 in memory database used for the application, this is accessible v
 
 Emails are being sent used Mailtrap as a simulated SMTP Server and Grails Mail Plugin to send the actual emails. 
 Please note that these emails will not be sent to the email addresses provided but instead will be captured by Mailtrap. 
-* Username: hakimboulestin.proton.me
-* Password: _H43MUvt87.vQ6y
+* Please contact if login details are required!
 
 Please note that this is a random generated Password which will be changed once repo has been reviewed.
 
